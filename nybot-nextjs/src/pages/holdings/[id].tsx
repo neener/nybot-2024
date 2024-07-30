@@ -1,24 +1,54 @@
-"use client";
-
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
+import { urlFor } from '../../lib/sanityImage';
+
+interface Image {
+  asset: {
+    _ref: string;
+  };
+  caption?: string;
+}
+
+interface Holding {
+  _id: string;
+  name: string;
+  artist?: any;
+  images?: Image[];
+  dimensions?: string;
+  medium?: string;
+  year?: number;
+  date?: string;
+  start_date?: string;
+  end_date?: string;
+  acquired?: number;
+  visibility?: string;
+  seller?: string;
+  price_paid?: number;
+  value?: number;
+  notes?: any;
+}
 
 const HoldingDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [holding, setHolding] = useState(null);
-  const [error, setError] = useState(null);
+  const [holding, setHolding] = useState<Holding | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
       const fetchHolding = async () => {
         try {
-          const data = await client.fetch(`*[_type == "holding" && _id == $id][0]`, { id });
+          const query = `*[_type == "holding" && _id == "${id}"][0]`;
+          const data = await client.fetch<Holding>(query);
+          console.log('Fetched Holding:', data); // Debugging log
           setHolding(data);
         } catch (err) {
-          console.error("Failed to fetch holding from Sanity:", err);
-          setError(err.message);
+          console.error("Failed to fetch holding:", err);
+          setError("Failed to fetch holding");
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -26,18 +56,49 @@ const HoldingDetail = () => {
     }
   }, [id]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   if (!holding) {
-    return <div>Loading...</div>;
+    return <div>Holding not found</div>;
   }
 
   return (
     <div>
-      <h1>{holding.title}</h1>
-      {/* Add more holding details here */}
+      <h1>{holding.name}</h1>
+      {holding.artist && <p>Artist: {holding.artist.name}</p>}
+      {holding.dimensions && <p>Dimensions: {holding.dimensions}</p>}
+      {holding.medium && <p>Medium: {holding.medium}</p>}
+      {holding.year && <p>Year: {holding.year}</p>}
+      {holding.acquired && <p>Acquired: {holding.acquired}</p>}
+      {holding.seller && <p>Seller: {holding.seller}</p>}
+      {holding.price_paid && <p>Price Paid: {holding.price_paid}</p>}
+      {holding.value && <p>Value: {holding.value}</p>}
+      {holding.notes && (
+        <div>
+          <h2>Notes</h2>
+          {/* Render the Portable Text blocks */}
+          {holding.notes.map((block: any, index: number) => (
+            <p key={index}>{block.children[0].text}</p>
+          ))}
+        </div>
+      )}
+      {holding.images && (
+        <div>
+          <h2>Images</h2>
+          {holding.images.map((image, index) => (
+            <div key={index}>
+              <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
+              {image.caption && <p>{image.caption}</p>}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

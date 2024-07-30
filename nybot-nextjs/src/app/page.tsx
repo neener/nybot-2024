@@ -14,6 +14,7 @@ const Home = () => {
         await client.fetch(`*[_type == "publication"]{_id, title}`);
         await client.fetch(`*[_type == "event"]{_id, title}`);
         await client.fetch(`*[_type == "holding"]{_id, title}`);
+        await client.fetch(`*[_type == "contact"]{_id, title}`);
       } catch (err) {
         console.error("Failed to fetch data from Sanity:", err);
         setError(err.message);
@@ -29,12 +30,11 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Home</h1>
       <section>
-        <h2><a href="/artworks">Artworks</a></h2>
+        <h2><a href="/artworks">Works</a></h2>
       </section>
       <section>
-        <h2><a href="/artists">Artists</a></h2>
+        <h2><a href="/artists">People</a></h2>
       </section>
       <section>
         <h2><a href="/publications">Publications</a></h2>
@@ -44,6 +44,9 @@ const Home = () => {
       </section>
       <section>
         <h2><a href="/holdings">Holdings</a></h2>
+      </section>
+      <section>
+        <h2><a href="/contact">Contact</a></h2> 
       </section>
     </div>
   );

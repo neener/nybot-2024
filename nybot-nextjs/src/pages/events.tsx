@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity'; 
+import Link from 'next/link';
+import { client } from '../lib/sanity';
 
-// Define the interface for event
 interface Event {
   _id: string;
   name: string;
 }
 
 const Events = () => {
-  // Use the interface to type the state
   const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -18,18 +19,33 @@ const Events = () => {
         setEvents(data);
       } catch (err) {
         console.error("Failed to fetch events:", err);
+        setError("Failed to fetch events");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchEvents();
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <h1>Events</h1>
       <ul>
         {events.map((event) => (
-          <li key={event._id}>{event.name}</li>
+          <li key={event._id}>
+            <Link href={`/events/${event._id}`}>
+              {event.name}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>

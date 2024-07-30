@@ -77,7 +77,7 @@ export const eventType = defineType({
       type: 'array',
       of: [{ type: 'url' }],
       options: {
-        layout: 'tags' // optional: makes the input look more compact
+        layout: 'tags' 
       }
     }),
     defineField({

@@ -1,39 +1,56 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity'; 
+import { client } from '../lib/sanity';
 
-// Define the interface for artist
 interface Artist {
   _id: string;
   name: string;
 }
 
-const Artists = () => {
-  // Use the interface to type the state
+const ArtistsList = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const data = await client.fetch<Artist[]>(`*[_type == "artist"]{_id, name}`);
+        const query = '*[_type == "artist"]{_id, name}';
+        const data = await client.fetch<Artist[]>(query);
         setArtists(data);
       } catch (err) {
         console.error("Failed to fetch artists:", err);
+        setError("Failed to fetch artists");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchArtists();
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <h1>Artists</h1>
       <ul>
         {artists.map((artist) => (
-          <li key={artist._id}>{artist.name}</li>
+          <li key={artist._id}>
+            <Link href={`/artists/${artist._id}`}>
+              {artist.name}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default Artists;
+export default ArtistsList;
