@@ -10,7 +10,7 @@ interface Image {
   caption?: string;
 }
 
-interface Event {
+interface Happening {
   _id: string;
   name: string;
   date?: string;
@@ -26,30 +26,30 @@ interface Event {
   artists?: any[];
 }
 
-const EventDetail = () => {
+const HappeningDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [event, setEvent] = useState<Event | null>(null);
+  const [happening, setHappening] = useState<Happening | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      const fetchEvent = async () => {
+      const fetchHappening = async () => {
         try {
-          const query = `*[_type == "event" && _id == "${id}"][0]`;
-          const data = await client.fetch<Event>(query);
-          console.log('Fetched Event:', data); // Debugging log
-          setEvent(data);
+          const query = `*[_type == "happening" && _id == "${id}"][0]`;
+          const data = await client.fetch<Happening>(query);
+          console.log('Fetched Happening:', data); // Debugging log
+          setHappening(data);
         } catch (err) {
-          console.error("Failed to fetch event:", err);
-          setError("Failed to fetch event");
+          console.error("Failed to fetch happening:", err);
+          setError("Failed to fetch happening");
         } finally {
           setLoading(false);
         }
       };
 
-      fetchEvent();
+      fetchHappening();
     }
   }, [id]);
 
@@ -61,22 +61,22 @@ const EventDetail = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (!event) {
-    return <div>Event not found</div>;
+  if (!happening) {
+    return <div>Happening not found</div>;
   }
 
   return (
     <div>
-      <h1>{event.name}</h1>
-      {event.date && <p>Date: {event.date}</p>}
-      {event.start_date && <p>Start Date: {event.start_date}</p>}
-      {event.end_date && <p>End Date: {event.end_date}</p>}
-      {event.curator && <p>Curator: {event.curator}</p>}
-      {event.year && <p>Year: {event.year}</p>}
-      {event.images && (
+      <h1>{happening.name}</h1>
+      {happening.date && <p>Date: {happening.date}</p>}
+      {happening.start_date && <p>Start Date: {happening.start_date}</p>}
+      {happening.end_date && <p>End Date: {happening.end_date}</p>}
+      {happening.curator && <p>Curator: {happening.curator}</p>}
+      {happening.year && <p>Year: {happening.year}</p>}
+      {happening.images && (
         <div>
           <h2>Images</h2>
-          {event.images.map((image, index) => (
+          {happening.images.map((image, index) => (
             <div key={index}>
               <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
               {image.caption && <p>{image.caption}</p>}
@@ -84,18 +84,18 @@ const EventDetail = () => {
           ))}
         </div>
       )}
-      {event.press && (
+      {happening.press && (
         <div>
           <h2>Press</h2>
-          {event.press.map((block: any, index: number) => (
+          {happening.press.map((block: any, index: number) => (
             <p key={index}>{block.children[0].text}</p>
           ))}
         </div>
       )}
-      {event.videoUrls && (
+      {happening.videoUrls && (
         <div>
           <h2>Video URLs</h2>
-          {event.videoUrls.map((url, index) => (
+          {happening.videoUrls.map((url, index) => (
             <p key={index}><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></p>
           ))}
         </div>
@@ -105,4 +105,4 @@ const EventDetail = () => {
   );
 };
 
-export default EventDetail;
+export default HappeningDetail;

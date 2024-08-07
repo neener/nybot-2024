@@ -23,9 +23,9 @@ export const locationType = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'event',
+      name: 'happening',
       type: 'reference',
-      to: [{ type: 'event'}]
+      to: [{ type: 'happening'}]
     }),
     defineField({
       name: 'artist',

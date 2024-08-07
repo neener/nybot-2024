@@ -34,9 +34,9 @@ export const artistType = defineType({
       to: [{ type: 'publication'}]
     }),
     defineField({
-      name: 'event',
+      name: 'happening',
       type: 'reference',
-      to: [{ type: 'event'}]
+      to: [{ type: 'happening'}]
     }),
     defineField({
       name: 'location',
@@ -71,8 +71,35 @@ export const artistType = defineType({
     }),
     defineField({
       name: 'about',
+      title: 'About',
       type: 'array',
-      of: [{type: 'block'}],
-    })
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          lists: [{ title: 'Bullet', value: 'bullet' }],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'URL',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
+    }),
   ],
 })

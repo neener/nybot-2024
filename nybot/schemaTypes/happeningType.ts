@@ -1,9 +1,9 @@
 import {defineField, defineType} from 'sanity'
 import {CalendarIcon} from '@sanity/icons'
 
-export const eventType = defineType({
-  name: 'event',
-  title: 'Event',
+export const happeningType = defineType({
+  name: 'happening',
+  title: 'Happening',
   type: 'document',
   icon: CalendarIcon,
   fields: [
@@ -68,8 +68,35 @@ export const eventType = defineType({
     }),
     defineField({
       name: 'press',
+      title: 'Press',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          lists: [{ title: 'Bullet', value: 'bullet' }],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'URL',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
     }),
     defineField({
       name: 'videoUrls',

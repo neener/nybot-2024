@@ -44,8 +44,35 @@ export const artworkType = defineType({
     }),
     defineField({
       name: 'description',
+      title: 'Description',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          lists: [{ title: 'Bullet', value: 'bullet' }],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'URL',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
     }),
     defineField({
       name: 'images',
@@ -84,8 +111,35 @@ export const artworkType = defineType({
     }),
     defineField({
       name: 'press',
+      title: 'Press',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          lists: [{ title: 'Bullet', value: 'bullet' }],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'URL',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'image',
+          options: { hotspot: true },
+        },
+      ],
     }),
     defineField({
       name: 'location',
@@ -118,6 +172,23 @@ export const artworkType = defineType({
         ],
         layout: 'radio' 
       }
-    }
+    },
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Painting', value: 'painting' },
+          { title: 'Drawing', value: 'drawing' },
+          { title: 'Sculpture', value: 'sculpture' },
+          { title: 'Performance', value: 'performance' },
+          { title: 'Installation', value: 'installation' },
+          { title: 'Book', value: 'book' },
+          { title: 'Other', value: 'other' },
+        ],
+        layout: 'dropdown',
+      },
+    }),
   ],
 })
