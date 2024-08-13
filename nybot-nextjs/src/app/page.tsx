@@ -12,7 +12,7 @@ const Home = () => {
         await client.fetch(`*[_type == "artwork"]{_id, title}`);
         await client.fetch(`*[_type == "artist"]{_id, name}`);
         await client.fetch(`*[_type == "publication"]{_id, title}`);
-        await client.fetch(`*[_type == "event"]{_id, title}`);
+        await client.fetch(`*[_type == "happening"]{_id, name}`);
         await client.fetch(`*[_type == "holding"]{_id, title}`);
         await client.fetch(`*[_type == "contact"]{_id, title}`);
       } catch (err) {
@@ -40,7 +40,7 @@ const Home = () => {
         <h2><a href="/publications">Publications</a></h2>
       </section>
       <section>
-        <h2><a href="/events">Events</a></h2>
+        <h2><a href="/happenings">Events</a></h2>
       </section>
       <section>
         <h2><a href="/holdings">Holdings</a></h2>

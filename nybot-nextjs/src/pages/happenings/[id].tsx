@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
+import Link from 'next/link';
+import { PortableTextBlock } from '@sanity/types';
 
 interface Image {
   asset: {
@@ -19,12 +21,22 @@ interface Happening {
   curator?: string;
   year?: number;
   images?: Image[];
-  press?: any[];
+  press?: PortableTextBlock[];
   videoUrls?: string[];
-  location?: any[];
-  institution?: any[];
-  artists?: any[];
+  relatedLocations?: Array<{
+    _id: string;
+    city: string;
+  }>;
+  relatedInstitutions?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedArtists?: Array<{
+    _id: string;
+    name: string;
+  }>;
 }
+
 
 const HappeningDetail = () => {
   const router = useRouter();
@@ -37,9 +49,39 @@ const HappeningDetail = () => {
     if (id) {
       const fetchHappening = async () => {
         try {
-          const query = `*[_type == "happening" && _id == "${id}"][0]`;
-          const data = await client.fetch<Happening>(query);
-          console.log('Fetched Happening:', data); // Debugging log
+          const data = await client.fetch(`
+            *[_id == "${id}"][0] {
+              _id,
+              name,
+              date,
+              start_date,
+              end_date,
+              year,
+              images[] {
+                asset->{
+                  _id,
+                  url
+                },
+                caption,
+                alt
+              },
+              press,
+              videoUrls,
+              relatedLocations[]-> {
+                _id,
+                city
+              },
+              relatedInstitutions[]-> {
+                _id,
+                name
+              },
+              relatedArtists[]-> {
+                _id,
+                name
+              }
+            }
+          `);
+          console.log('Fetched Happening:', data); 
           setHappening(data);
         } catch (err) {
           console.error("Failed to fetch happening:", err);
@@ -48,7 +90,7 @@ const HappeningDetail = () => {
           setLoading(false);
         }
       };
-
+      
       fetchHappening();
     }
   }, [id]);
@@ -73,6 +115,7 @@ const HappeningDetail = () => {
       {happening.end_date && <p>End Date: {happening.end_date}</p>}
       {happening.curator && <p>Curator: {happening.curator}</p>}
       {happening.year && <p>Year: {happening.year}</p>}
+  
       {happening.images && (
         <div>
           <h2>Images</h2>
@@ -84,6 +127,7 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
+  
       {happening.press && (
         <div>
           <h2>Press</h2>
@@ -92,6 +136,7 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
+  
       {happening.videoUrls && (
         <div>
           <h2>Video URLs</h2>
@@ -100,9 +145,35 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
-      {/* Add more fields as needed */}
+  
+      {happening.relatedLocations && happening.relatedLocations.length > 0 && (
+        <div>
+          <h2>Related Locations</h2>
+          {happening.relatedLocations.map((location, index) => (
+            <p key={index}>{location.city}</p>
+          ))}
+        </div>
+      )}
+  
+      {happening.relatedInstitutions && happening.relatedInstitutions.length > 0 && (
+        <div>
+          <h2>Related Institutions</h2>
+          {happening.relatedInstitutions.map((institution, index) => (
+            <p key={index}>{institution.name}</p>
+          ))}
+        </div>
+      )}
+  
+      {happening.relatedArtists && happening.relatedArtists.length > 0 && (
+        <div>
+          <h2>Related Artists</h2>
+          {happening.relatedArtists.map((artist, index) => (
+            <p key={index}>{artist.name}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
-
+  
 export default HappeningDetail;

@@ -88,61 +88,42 @@ export const publicationType = defineType({
         ]
       }]
     }),
-    defineField({
-      name: 'happening',
-      type: 'reference',
-      to: [{ type: 'happening'}]
-    }),
-    defineField({
-      name: 'artists',
+    {
+      name: 'relatedHappenings',
+      title: 'Related Happenings',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'artist' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'location',
+      of: [{ type: 'reference', to: { type: 'happening' } }]
+    },
+    {
+      name: 'relatedArtists',
+      title: 'Related Artists',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'location' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'institution',
+      of: [{ type: 'reference', to: { type: 'artist' } }]
+    },
+    {
+      name: 'relatedLocations',
+      title: 'Related Locations',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'institution' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'gallery',
+      of: [{ type: 'reference', to: { type: 'location' } }]
+    },
+    {
+      name: 'relatedInstitutions',
+      title: 'Related Institutions',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'gallery' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'business',
+      of: [{ type: 'reference', to: { type: 'institution' } }]
+    },
+    {
+      name: 'relatedGalleries',
+      title: 'Related Galleries',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'business' }],
-        },
-      ],
-    }),
+      of: [{ type: 'reference', to: { type: 'gallery' } }]
+    },
+    {
+      name: 'relatedBusinesses',
+      title: 'Related Businesses',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'business' } }]
+    },
     defineField({
       name: 'dimensions',
       type: 'string',
@@ -184,7 +165,7 @@ export const publicationType = defineType({
           { title: 'Public', value: 'public' },
           { title: 'Private', value: 'private' },
         ],
-        layout: 'radio', // This makes it a radio button
+        layout: 'radio', 
       },
     })
   ],

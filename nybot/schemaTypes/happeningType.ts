@@ -107,35 +107,23 @@ export const happeningType = defineType({
         layout: 'tags' 
       }
     }),
-    defineField({
-      name: 'location',
+    {
+      name: 'relatedLocations',
+      title: 'Related Locations',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'location' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'institution',
+      of: [{ type: 'reference', to: { type: 'location' } }]
+    },
+    {
+      name: 'relatedInstitutions',
+      title: 'Related Institutions',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'institution' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'artists',
+      of: [{ type: 'reference', to: { type: 'institution' } }]
+    },
+    {
+      name: 'relatedArtists',
+      title: 'Related Artists',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'artist' }],
-        },
-      ],
-    }),
+      of: [{ type: 'reference', to: { type: 'artist' } }]
+    }
   ],
 })

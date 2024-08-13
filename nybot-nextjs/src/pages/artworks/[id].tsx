@@ -1,23 +1,26 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
-import { urlFor } from '../../lib/sanityImage'; // Import the URL builder
+import { urlFor } from '../../lib/sanityImage';
+import { PortableText } from '@portabletext/react';
 
-// Define the interface for artwork
 interface Artwork {
   _id: string;
   title: string;
   year: number;
   date: string;
+  start_date?: string;
+  end_date?: string;
   dimensions: string;
   medium: string;
   description?: any[];
   images?: Array<{ _key: string; asset: { _ref: string }; caption: string; alt: string }>;
   videoUrls?: string[];
   press?: any[];
-  location?: any[];
-  artists?: any[];
+  location?: string[];  // Now expecting strings
+  artists?: string[];   // Now expecting strings
   access: string;
+  category?: string;
 }
 
 const ArtworkDetails = () => {
@@ -34,18 +37,21 @@ const ArtworkDetails = () => {
             title,
             year,
             date,
+            start_date,
+            end_date,
             dimensions,
             medium,
             description,
             images,
             videoUrls,
             press,
-            location,
-            artists,
-            access
+            "location": location[]->city,  
+            "artists": artists[]->name,    
+            access,
+            category
           }`;
           const data = await client.fetch<Artwork>(query, { id });
-          console.log("Fetched artwork data:", data); // Add this line to debug
+          console.log("Fetched artwork data:", data);
           setArtwork(data);
         } catch (err) {
           console.error("Failed to fetch artwork:", err);
@@ -67,15 +73,15 @@ const ArtworkDetails = () => {
       <h1>{artwork.title}</h1>
       <p><strong>Year:</strong> {artwork.year}</p>
       <p><strong>Date:</strong> {artwork.date}</p>
+      {artwork.start_date && <p><strong>Start Date:</strong> {artwork.start_date}</p>}
+      {artwork.end_date && <p><strong>End Date:</strong> {artwork.end_date}</p>}
       <p><strong>Dimensions:</strong> {artwork.dimensions}</p>
       <p><strong>Medium:</strong> {artwork.medium}</p>
 
       {artwork.description && (
         <div>
           <strong>Description:</strong>
-          {artwork.description.map((block: any) => (
-            <p key={block._key}>{block.children.map((child: any) => child.text).join(' ')}</p>
-          ))}
+          <PortableText value={artwork.description} />
         </div>
       )}
 
@@ -84,10 +90,10 @@ const ArtworkDetails = () => {
           <strong>Images:</strong>
           {artwork.images.map(image => (
             <div key={image._key}>
-               <img
+              <img
                 src={urlFor(image.asset).url()}
                 alt={image.alt}
-                style={{ maxWidth: '500px', width: '100%', height: 'auto' }} // Inline style added
+                style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
               />
               <p>{image.caption}</p>
             </div>
@@ -109,9 +115,7 @@ const ArtworkDetails = () => {
       {artwork.press && (
         <div>
           <strong>Press:</strong>
-          {artwork.press.map((block: any) => (
-            <p key={block._key}>{block.children.map((child: any) => child.text).join(' ')}</p>
-          ))}
+          <PortableText value={artwork.press} />
         </div>
       )}
 
@@ -138,6 +142,7 @@ const ArtworkDetails = () => {
       )}
 
       <p><strong>Access:</strong> {artwork.access}</p>
+      {artwork.category && <p><strong>Category:</strong> {artwork.category}</p>}
     </div>
   );
 };
