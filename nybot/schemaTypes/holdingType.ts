@@ -133,6 +133,48 @@ export const holdingType = defineType({
         },
       ],
     }),
+    {
+      name: 'relatedArtists',
+      title: 'Related Artists',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'artist' } }]
+    },
+    {
+      name: 'relatedPublications',
+      title: 'Related Publications',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'publication' } }]
+    },
+    {
+      name: 'relatedLocations',
+      title: 'Related Locations',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'location' } }]
+    },
+    {
+      name: 'relatedHappenings',
+      title: 'Related Happenings',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'happening' } }]
+    },
+    {
+      name: 'relatedInstitutions',
+      title: 'Related Institutions',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'institution' } }]
+    },
+    {
+      name: 'relatedGalleries',
+      title: 'Related Galleries',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'gallery' } }]
+    },
+    {
+      name: 'relatedBusinesses',
+      title: 'Related Businesses',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'business' } }]
+    },
     defineField({
       name: 'category',
       title: 'Category',

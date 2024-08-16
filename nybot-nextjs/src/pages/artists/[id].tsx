@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
+import Link from 'next/link';
 
 interface Artist {
   _id: string;
@@ -30,7 +31,7 @@ interface Artist {
 
 const ArtistDetails = () => {
   const router = useRouter();
-  const { id } = router.query; // Retrieve the id from the URL
+  const { id } = router.query; 
   const [artist, setArtist] = useState<Artist | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,8 +39,8 @@ const ArtistDetails = () => {
   useEffect(() => {
     const fetchArtist = async () => {
       if (id) {
-        console.log('Artist ID:', id); // Debugging line
         try {
+          console.log(`Fetching artist with id: ${id}`); // Debugging line
           const query = `*[_type == "artist" && _id == $id][0]{
             _id,
             name,
@@ -135,14 +136,12 @@ const ArtistDetails = () => {
             );
           } else if (block._type === 'image') {
             return (
-              block.asset && (
-                <img
-                  key={index}
-                  src={urlFor(block).url()}
-                  alt="Press image"
-                  style={{ maxWidth: '500px', width: '100%' }}
-                />
-              )
+              <img
+                key={index}
+                src={urlFor(block).url()}
+                alt="Press image"
+                style={{ maxWidth: '500px', width: '100%' }}
+              />
             );
           }
           return null;
@@ -153,23 +152,37 @@ const ArtistDetails = () => {
         <div>
           <h2>Related Artwork</h2>
           {artist?.relatedArtworks.map((artwork, index) => (
-            <p key={index}>{artwork.title}</p>
+            <p key={index}>
+              <Link href={`/artworks/${artwork._id}`}>
+                {artwork.title}
+              </Link>
+            </p>
           ))}
         </div>
       )}
+
       {artist?.relatedPublications && artist?.relatedPublications.length > 0 && (
         <div>
           <h2>Related Publications</h2>
           {artist?.relatedPublications.map((publication, index) => (
-            <p key={index}>{publication.title}</p>
+            <p key={index}>
+              <Link href={`/publications/${publication._id}`}>
+                {publication.title}
+              </Link>
+            </p>
           ))}
         </div>
       )}
+      
       {artist?.relatedHappenings && artist?.relatedHappenings.length > 0 && (
         <div>
           <h2>Related Happenings</h2>
           {artist?.relatedHappenings.map((happening, index) => (
-            <p key={index}>{happening.name}</p>
+            <p key={index}>
+              <Link href={`/happenings/${happening._id}`}>
+                {happening.name}
+              </Link>
+            </p>
           ))}
         </div>
       )}
@@ -198,7 +211,6 @@ const ArtistDetails = () => {
       )}
     </div>
   );
-  
 };
 
 export default ArtistDetails;

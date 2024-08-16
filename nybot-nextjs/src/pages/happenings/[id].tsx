@@ -23,6 +23,14 @@ interface Happening {
   images?: Image[];
   press?: PortableTextBlock[];
   videoUrls?: string[];
+  relatedArtists?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedPublications?: Array<{
+    _id: string;
+    title: string;
+  }>;
   relatedLocations?: Array<{
     _id: string;
     city: string;
@@ -31,10 +39,15 @@ interface Happening {
     _id: string;
     name: string;
   }>;
-  relatedArtists?: Array<{
+  relatedGalleries?: Array<{
     _id: string;
     name: string;
   }>;
+  relatedBusinesses?: Array<{
+    _id: string;
+    name: string;
+  }>;
+
 }
 
 
@@ -67,6 +80,14 @@ const HappeningDetail = () => {
               },
               press,
               videoUrls,
+              relatedArtists[]-> {
+                _id,
+                name
+              },
+              relatedPublications[]-> {
+                _id,
+                title
+              },
               relatedLocations[]-> {
                 _id,
                 city
@@ -75,7 +96,11 @@ const HappeningDetail = () => {
                 _id,
                 name
               },
-              relatedArtists[]-> {
+              relatedGalleries[]-> {
+                _id,
+                name
+              },
+              relatedBusinesses[]-> {
                 _id,
                 name
               }
@@ -145,7 +170,29 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
-  
+
+      {happening.relatedArtists && happening.relatedArtists.length > 0 && (
+        <div>
+          <h2>Related Artists</h2>
+          {happening.relatedArtists.map((artist, index) => (
+            <p key={index}>
+              <Link href={`/artists/${artist._id}`}>{artist.name}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+
+      {happening.relatedPublications && happening.relatedPublications.length > 0 && (
+        <div>
+          <h2>Related Publications</h2>
+          {happening.relatedPublications.map((publication, index) => (
+            <p key={index}>
+              <Link href={`/publications/${publication._id}`}>{publication.title}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+
       {happening.relatedLocations && happening.relatedLocations.length > 0 && (
         <div>
           <h2>Related Locations</h2>
@@ -163,15 +210,24 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
-  
-      {happening.relatedArtists && happening.relatedArtists.length > 0 && (
+      {happening.relatedGalleries && happening.relatedGalleries.length > 0 && (
         <div>
-          <h2>Related Artists</h2>
-          {happening.relatedArtists.map((artist, index) => (
-            <p key={index}>{artist.name}</p>
+          <h2>Related Galleries</h2>
+          {happening.relatedGalleries.map((gallery, index) => (
+            <p key={index}>{gallery.name}</p>
           ))}
         </div>
       )}
+      {happening.relatedBusinesses && happening.relatedBusinesses.length > 0 && (
+        <div>
+          <h2>Related Businesses</h2>
+          {happening.relatedBusinesses.map((business, index) => (
+            <p key={index}>{business.name}</p>
+          ))}
+        </div>
+      )}
+  
+      
     </div>
   );
 };

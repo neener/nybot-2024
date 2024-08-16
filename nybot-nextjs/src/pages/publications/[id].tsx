@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
+import Link from 'next/link';
 
 
 interface Image {
@@ -188,7 +189,9 @@ const PublicationDetail = () => {
         <div>
           <h2>Related Happenings</h2>
           {publication.relatedHappenings.map((happening, index) => (
-            <p key={index}>{happening.name}</p>
+            <p key={index}>
+              <Link href={`/happenings/${happening._id}`}>{happening.name}</Link>
+            </p>
           ))}
         </div>
       )}
@@ -196,7 +199,9 @@ const PublicationDetail = () => {
         <div>
           <h2>Related Artists</h2>
           {publication.relatedArtists.map((artist, index) => (
-            <p key={index}>{artist.name}</p>
+            <p key={index}>
+              <Link href={`/artists/${artist._id}`}>{artist.name}</Link>
+            </p>
           ))}
         </div>
       )}

@@ -141,26 +141,42 @@ export const artworkType = defineType({
         },
       ],
     }),
-    defineField({
-      name: 'location',
+    {
+      name: 'relatedLocations',
+      title: 'Related Locations',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'location' }],
-        },
-      ],
-    }),
-    defineField({
-      name: 'artists',
+      of: [{ type: 'reference', to: { type: 'location' } }]
+    },
+    {
+      name: 'relatedArtists',
+      title: 'Related Artists',
       type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'artist' }],
-        },
-      ],
-    }),
+      of: [{ type: 'reference', to: { type: 'artist' } }]
+    },
+    {
+      name: 'relatedHappenings',
+      title: 'Related Happenings',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'happening' } }]
+    },
+    {
+      name: 'relatedInstitutions',
+      title: 'Related Institutions',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'institution' } }]
+    },
+    {
+      name: 'relatedGalleries',
+      title: 'Related Galleries',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'gallery' } }]
+    },
+    {
+      name: 'relatedBusinesses',
+      title: 'Related Businesses',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'business' } }]
+    },
     {
       name: 'access',
       title: 'Access',

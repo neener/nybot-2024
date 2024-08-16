@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
+import Link from 'next/link';
 
 interface Image {
   asset: {
@@ -31,6 +32,34 @@ interface Holding {
   price_paid?: number;
   value?: number;
   notes?: any[];
+  relatedArtists?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedPublications?: Array<{
+    _id: string;
+    title: string;
+  }>;
+  relatedLocations?: Array<{
+    _id: string;
+    city: string;
+  }>;
+  relatedHappenings?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedInstitutions?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedGalleries?: Array<{
+    _id: string;
+    name: string;
+  }>;
+  relatedBusinesses?: Array<{
+    _id: string;
+    name: string;
+  }>;
   category?: string;
 }
 
@@ -62,6 +91,34 @@ const HoldingDetail = () => {
             price_paid,
             value,
             notes,
+            relatedArtists[]-> {
+              _id,
+              name
+            },
+            relatedPublications[]-> {
+              _id,
+              title
+            },
+            relatedLocations[]-> {
+              _id,
+              city
+            },
+            relatedHappenings[]-> {
+              _id,
+              name
+            },
+            relatedInstitutions[]-> {
+              _id,
+              name
+            },
+            relatedGalleries[]-> {
+              _id,
+              name
+            },
+            relatedBusinesses[]-> {
+              _id,
+              name
+            },
             category
           }`;
           const data = await client.fetch(query, { id });
@@ -134,6 +191,76 @@ const HoldingDetail = () => {
           ))}
         </div>
       )}
+
+      {holding.relatedArtists && holding.relatedArtists.length > 0 && (
+        <div>
+          <h2>Related Artists</h2>
+          {holding.relatedArtists.map((artist, index) => (
+            <p key={index}>
+              <Link href={`/artists/${artist._id}`}>{artist.name}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+
+
+      {holding.relatedPublications && holding.relatedPublications.length > 0 && (
+        <div>
+          <h2>Related Publications</h2>
+          {holding.relatedPublications.map((publication, index) => (
+            <p key={index}>
+              <Link href={`/publications/${publication._id}`}>{publication.title}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+
+  
+      {holding.relatedLocations && holding.relatedLocations.length > 0 && (
+        <div>
+          <h2>Related Locations</h2>
+          {holding.relatedLocations.map((location, index) => (
+            <p key={index}>{location.city}</p>
+          ))}
+        </div>
+      )}
+
+      {holding.relatedHappenings && holding.relatedHappenings.length > 0 && (
+        <div>
+          <h2>Related Happenings</h2>
+          {holding.relatedHappenings.map((happening, index) => (
+            <p key={index}>
+              <Link href={`/happenings/${happening._id}`}>{happening.name}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+  
+      {holding.relatedInstitutions && holding.relatedInstitutions.length > 0 && (
+        <div>
+          <h2>Related Institutions</h2>
+          {holding.relatedInstitutions.map((institution, index) => (
+            <p key={index}>{institution.name}</p>
+          ))}
+        </div>
+      )}
+      {holding.relatedGalleries && holding.relatedGalleries.length > 0 && (
+        <div>
+          <h2>Related Galleries</h2>
+          {holding.relatedGalleries.map((gallery, index) => (
+            <p key={index}>{gallery.name}</p>
+          ))}
+        </div>
+      )}
+      {holding.relatedBusinesses && holding.relatedBusinesses.length > 0 && (
+        <div>
+          <h2>Related Businesses</h2>
+          {holding.relatedBusinesses.map((business, index) => (
+            <p key={index}>{business.name}</p>
+          ))}
+        </div>
+      )}
+  
     </div>
   );
 };
