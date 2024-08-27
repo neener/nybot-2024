@@ -113,6 +113,12 @@ export const happeningType = defineType({
       type: 'array',
       of: [{ type: 'reference', to: { type: 'artist' } }]
     },
+    defineField({
+      name: 'relatedArtworks',
+      title: 'Related Artworks',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'artwork' } }],
+    }),
     {
       name: 'relatedPublications',
       title: 'Related Publications',

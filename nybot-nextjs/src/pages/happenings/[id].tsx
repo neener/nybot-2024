@@ -47,7 +47,10 @@ interface Happening {
     _id: string;
     name: string;
   }>;
-
+  relatedArtworks?: Array<{
+    _id: string;
+    title: string;
+  }>;
 }
 
 
@@ -103,6 +106,10 @@ const HappeningDetail = () => {
               relatedBusinesses[]-> {
                 _id,
                 name
+              },
+              relatedArtworks[]-> {
+                _id,
+                title
               }
             }
           `);
@@ -259,6 +266,17 @@ const HappeningDetail = () => {
         </div>
       )}
 
+      {happening.relatedArtworks && happening.relatedArtworks.length > 0 && (
+        <div>
+          <h2>Related Artworks</h2>
+          {happening.relatedArtworks.map((artwork, index) => (
+            <p key={index}>
+              <Link href={`/artworks/${artwork._id}`}>{artwork.title}</Link>
+            </p>
+          ))}
+        </div>
+      )}
+      
       {happening.relatedPublications && happening.relatedPublications.length > 0 && (
         <div>
           <h2>Related Publications</h2>
@@ -303,8 +321,6 @@ const HappeningDetail = () => {
           ))}
         </div>
       )}
-  
-      
     </div>
   );
 };

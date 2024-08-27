@@ -141,6 +141,24 @@ export const artworkType = defineType({
         },
       ],
     }),
+    defineField({
+      name: 'available',
+      title: 'Available',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Yes', value: 'yes' },
+          { title: 'No', value: 'no' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'availabilityInfo',
+      title: 'Availability Info',
+      type: 'text',
+      description: 'Provide additional details about availability.',
+    }),
     {
       name: 'relatedLocations',
       title: 'Related Locations',
