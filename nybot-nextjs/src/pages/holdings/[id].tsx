@@ -60,7 +60,7 @@ interface Holding {
     _id: string;
     name: string;
   }>;
-  category?: string;
+  categories?: string[];
 }
 
 const HoldingDetail = () => {
@@ -119,7 +119,7 @@ const HoldingDetail = () => {
               _id,
               name
             },
-            category
+            categories
           }`;
           const data = await client.fetch(query, { id });
           console.log('Fetched Holding:', data);
@@ -163,7 +163,7 @@ const HoldingDetail = () => {
       {holding.seller && <p>Seller: {holding.seller}</p>}
       {holding.price_paid && <p>Price Paid: {holding.price_paid}</p>}
       {holding.value && <p>Value: {holding.value}</p>}
-      {holding.category && <p>Category: {holding.category}</p>}
+      {holding.categories && <p>Categories: {holding.categories.join(', ')}</p>}
 
       {holding.images && holding.images.length > 0 && (
         <div>

@@ -43,7 +43,7 @@ interface Artwork {
     name: string;
   }>;
   access: string;
-  category?: string;
+  categories?: string[];
 }
 
 const ArtworkDetails = () => {
@@ -104,7 +104,7 @@ const ArtworkDetails = () => {
                 name
               },
               access,
-              category
+              categories
             }
           `, { id });
           console.log("Fetched artwork data:", data);
@@ -155,25 +155,60 @@ const ArtworkDetails = () => {
           <strong>Images:</strong>
           {artwork.images.map(image => (
             <div key={image._key}>
-              <img
-                src={urlFor(image.asset).url()}
-                alt={image.alt}
-                style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
-              />
-              <p>{image.caption}</p>
+              {image.asset && image.asset.url ? ( // Use the direct URL if available
+                <>
+                  <img
+                    src={image.asset.url} // Use the direct URL here
+                    alt={image.alt || 'Artwork image'}
+                    style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
+                  />
+                  <p>{image.caption}</p>
+                </>
+              ) : (
+                <p>No image available</p> // Optional fallback if no image is available
+              )}
             </div>
           ))}
         </div>
       )}
 
-      {artwork.videoUrls && (
+     {/* Videos */}
+      {artwork.videoUrls && Array.isArray(artwork.videoUrls) && artwork.videoUrls.length > 0 && (
         <div>
-          <strong>Video URLs:</strong>
-          <ul>
-            {artwork.videoUrls.map((url, index) => (
-              <li key={index}><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>
-            ))}
-          </ul>
+          <h2>Videos</h2>
+          {artwork.videoUrls.map((videoUrl, index) => {
+            const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+            const isVimeo = videoUrl.includes('vimeo.com');
+
+            return (
+              <div key={`video-${index}`}>
+                {isYouTube ? (
+                  <iframe
+                    width="560"
+                    height="315"
+                    src={videoUrl.replace('watch?v=', 'embed/')}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : isVimeo ? (
+                  <iframe
+                    src={videoUrl.replace('vimeo.com', 'player.vimeo.com/video')}
+                    width="640"
+                    height="360"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+                    {videoUrl}
+                  </a>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -244,7 +279,11 @@ const ArtworkDetails = () => {
       )}
 
       <p><strong>Access:</strong> {artwork.access}</p>
-      {artwork.category && <p><strong>Category:</strong> {artwork.category}</p>}
+
+      {artwork.categories && (
+        <p><strong>Categories:</strong> {artwork.categories.join(', ')}</p> 
+      )}
+
     </div>
   );
 };

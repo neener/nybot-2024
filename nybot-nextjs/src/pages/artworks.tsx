@@ -15,7 +15,7 @@ const Artworks = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const data = await client.fetch<Artwork[]>(`*[_type == "artwork"]{_id, title, slug}`);
+        const data = await client.fetch<Artwork[]>(`*[_type == "artwork"]{_id, title}`);
         setArtworks(data);
       } catch (err) {
         console.error("Failed to fetch artworks:", err);
@@ -31,7 +31,7 @@ const Artworks = () => {
       <ul>
         {artworks.map((artwork) => (
           <li key={artwork._id}>
-            <Link href={`/artworks/${artwork.slug.current}`}>
+            <Link href={`/artworks/${artwork._id}`}>
               {artwork.title}
             </Link>
           </li>

@@ -146,28 +146,105 @@ const HappeningDetail = () => {
           <h2>Images</h2>
           {happening.images.map((image, index) => (
             <div key={index}>
-              <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
-              {image.caption && <p>{image.caption}</p>}
+              {image.asset ? (
+                <>
+                  <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
+                  {image.caption && <p>{image.caption}</p>}
+                </>
+              ) : (
+                <p>No image available</p> // Optional fallback if asset is not available
+              )}
             </div>
           ))}
         </div>
       )}
-  
-      {happening.press && (
+
+     {/* Press */}
+      {happening.press && happening.press.length > 0 && (
         <div>
           <h2>Press</h2>
-          {happening.press.map((block: any, index: number) => (
-            <p key={index}>{block.children[0].text}</p>
-          ))}
+          {happening.press.map((block: any, index: number) => {
+            // Handle different block types (e.g., block of text or image)
+            if (block._type === 'block') {
+              return (
+                <p key={index}>
+                  {block.children?.map((child: any, childIndex: number) => {
+                    const linkMark = child.marks?.find((mark: string) => {
+                      return block.markDefs?.some((def) => def._key === mark && def._type === 'link');
+                    });
+
+                    if (linkMark) {
+                      const link = block.markDefs?.find((def) => def._key === linkMark);
+                      return (
+                        <a
+                          key={childIndex}
+                          href={link?.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'blue', textDecoration: 'underline' }}
+                        >
+                          {child.text}
+                        </a>
+                      );
+                    }
+                    return <span key={childIndex}>{child.text}</span>;
+                  })}
+                </p>
+              );
+            } else if (block._type === 'image' && block.asset) {
+              // Handle image block
+              return (
+                <img
+                  key={index}
+                  src={urlFor(block.asset).url()}
+                  alt="Press image"
+                  style={{ maxWidth: '500px', width: '100%' }}
+                />
+              );
+            } else {
+              return null; // Fallback for unhandled block types
+            }
+          })}
         </div>
       )}
-  
-      {happening.videoUrls && (
+
+      {/* Videos */}
+      {happening.videoUrls && Array.isArray(happening.videoUrls) && happening.videoUrls.length > 0 && (
         <div>
-          <h2>Video URLs</h2>
-          {happening.videoUrls.map((url, index) => (
-            <p key={index}><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></p>
-          ))}
+          <h2>Videos</h2>
+          {happening.videoUrls.map((videoUrl, index) => {
+            const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+            const isVimeo = videoUrl.includes('vimeo.com');
+
+            return (
+              <div key={`video-${index}`}>
+                {isYouTube ? (
+                  <iframe
+                    width="560"
+                    height="315"
+                    src={videoUrl.replace('watch?v=', 'embed/')}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : isVimeo ? (
+                  <iframe
+                    src={videoUrl.replace('vimeo.com', 'player.vimeo.com/video')}
+                    width="640"
+                    height="360"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+                    {videoUrl}
+                  </a>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 
