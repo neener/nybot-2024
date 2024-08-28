@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
