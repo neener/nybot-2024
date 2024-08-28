@@ -5,6 +5,7 @@ import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
 import Link from 'next/link';
 
+
 interface Artist {
   _id: string;
   name: string;

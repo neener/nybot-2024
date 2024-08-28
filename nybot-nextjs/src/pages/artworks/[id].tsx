@@ -4,6 +4,7 @@ import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Artwork {
   _id: string;
@@ -157,9 +158,11 @@ const ArtworkDetails = () => {
             <div key={image._key}>
               {image.asset && image.asset.url ? ( // Use the direct URL if available
                 <>
-                  <img
+                  <Image
                     src={image.asset.url} // Use the direct URL here
                     alt={image.alt || 'Artwork image'}
+                    width={500} // Set a default width
+                    height={image.asset.url.includes('-') ? 500 / (parseInt(image.asset.url.split('-')[1].split('x')[0]) / parseInt(image.asset.url.split('-')[1].split('x')[1])) : 300} // Set a height based on aspect ratio or default
                     style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
                   />
                   <p>{image.caption}</p>
@@ -171,6 +174,7 @@ const ArtworkDetails = () => {
           ))}
         </div>
       )}
+
 
      {/* Videos */}
       {artwork.videoUrls && Array.isArray(artwork.videoUrls) && artwork.videoUrls.length > 0 && (

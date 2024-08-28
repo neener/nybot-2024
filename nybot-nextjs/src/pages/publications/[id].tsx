@@ -4,7 +4,7 @@ import { client } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
 import Link from 'next/link';
-
+import Image from 'next/image';
 
 interface Image {
   asset: {
@@ -155,7 +155,7 @@ const PublicationDetail = () => {
           } else if (block._type === 'image') {
             return (
               block.asset && (
-                <img
+                <Image
                   key={index}
                   src={urlFor(block).url()}
                   alt="Press image"

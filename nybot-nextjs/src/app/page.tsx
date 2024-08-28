@@ -1,4 +1,7 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+
 "use client";
+import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
@@ -31,22 +34,22 @@ const Home = () => {
   return (
     <div>
       <section>
-        <h2><a href="/artworks">Works</a></h2>
+        <h2><Link href="/artworks">Works</Link></h2>
       </section>
       <section>
-        <h2><a href="/artists">People</a></h2>
+        <h2><Link href="/artists">People</Link></h2>
       </section>
       <section>
-        <h2><a href="/publications">Publications</a></h2>
+        <h2><Link href="/publications">Publications</Link></h2>
       </section>
       <section>
-        <h2><a href="/happenings">Events</a></h2>
+        <h2><Link href="/happenings">Events</Link></h2>
       </section>
       <section>
-        <h2><a href="/holdings">Holdings</a></h2>
+        <h2><Link href="/holdings">Holdings</Link></h2>
       </section>
       <section>
-        <h2><a href="/contact">Contact</a></h2> 
+        <h2><Link href="/contact">Contact</Link></h2> 
       </section>
     </div>
   );
