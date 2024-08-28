@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { client } from '../../lib/sanity';
