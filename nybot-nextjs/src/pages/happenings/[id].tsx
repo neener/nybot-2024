@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { client } from '../../lib/sanity';
+import { sanityClient } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import Link from 'next/link';
 import { PortableTextBlock } from '@sanity/types';
@@ -68,7 +68,7 @@ const HappeningDetail = () => {
     if (id) {
       const fetchHappening = async () => {
         try {
-          const data = await client.fetch(`
+          const data = await sanityClient.fetch(`
             *[_id == "${id}"][0] {
               _id,
               name,

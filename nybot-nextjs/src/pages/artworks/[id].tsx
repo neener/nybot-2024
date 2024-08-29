@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { client } from '../../lib/sanity';
+import { sanityClient } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableText } from '@portabletext/react';
 import Link from 'next/link';
@@ -61,7 +61,7 @@ const ArtworkDetails = () => {
     const fetchArtwork = async () => {
       if (id) {
         try {
-          const data = await client.fetch(`
+          const data = await sanityClient.fetch(`
             *[_id == $id][0] {
               _id,
               title,

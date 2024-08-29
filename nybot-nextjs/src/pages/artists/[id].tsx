@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { client } from '../../lib/sanity';
+import { sanityClient } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
 import Link from 'next/link';
@@ -75,7 +75,7 @@ const ArtistDetails = () => {
             },
             about
           }`;
-          const data = await client.fetch<Artist>(query, { id });
+          const data = await sanityClient.fetch<Artist>(query, { id });
           console.log('Fetched Artist:', data); // Debugging line
           if (data) {
             setArtist(data);

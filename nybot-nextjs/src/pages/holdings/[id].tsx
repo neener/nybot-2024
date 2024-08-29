@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { client } from '../../lib/sanity';
+import { sanityClient } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import Link from 'next/link';
 
@@ -124,7 +124,7 @@ const HoldingDetail = () => {
             },
             categories
           }`;
-          const data = await client.fetch(query, { id });
+          const data = await sanityClient.fetch(query, { id });
           console.log('Fetched Holding:', data);
           setHolding(data);
         } catch (err) {

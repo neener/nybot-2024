@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { client } from '../../lib/sanity';
+import { sanityClient } from '../../lib/sanity';
 import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
 import Link from 'next/link';
@@ -88,7 +88,7 @@ const PublicationDetail = () => {
             "pdfFile": pdfFile.asset->url,
             visibility
           }`;
-          const data = await client.fetch<Publication>(query);
+          const data = await sanityClient.fetch<Publication>(query);
           console.log('Fetched Publication:', data); // Debugging log
           setPublication(data);
         } catch (err) {
