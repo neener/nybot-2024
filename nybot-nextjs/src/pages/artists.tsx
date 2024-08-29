@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 interface Artist {
   _id: string;
@@ -16,7 +16,7 @@ const ArtistsList = () => {
     const fetchArtists = async () => {
       try {
         const query = '*[_type == "artist"]{_id, name}';
-        const data = await client.fetch<Artist[]>(query);
+        const data = await sanityClient.fetch<Artist[]>(query);
         setArtists(data);
       } catch (err) {
         console.error("Failed to fetch artists:", err);

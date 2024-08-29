@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 // Define the interface for artwork
 interface Artwork {
@@ -15,7 +15,7 @@ const Artworks = () => {
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const data = await client.fetch<Artwork[]>(`*[_type == "artwork"]{_id, title}`);
+        const data = await sanityClient.fetch<Artwork[]>(`*[_type == "artwork"]{_id, title}`);
         setArtworks(data);
       } catch (err) {
         console.error("Failed to fetch artworks:", err);

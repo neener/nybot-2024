@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 interface Contact {
   _id: string;
@@ -17,7 +17,7 @@ const ContactPage = () => {
   useEffect(() => {
     const fetchContact = async () => {
       try {
-        const data = await client.fetch(`*[_type == "contact"][0]`);
+        const data = await sanityClient.fetch(`*[_type == "contact"][0]`);
         setContact(data);
       } catch (err) {
         console.error("Failed to fetch contact:", err);

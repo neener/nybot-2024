@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 interface Publication {
   _id: string;
@@ -16,7 +16,7 @@ const PublicationsList = () => {
     const fetchPublications = async () => {
       try {
         const query = '*[_type == "publication"]{_id, title}';
-        const data = await client.fetch<Publication[]>(query);
+        const data = await sanityClient.fetch<Publication[]>(query);
         setPublications(data);
       } catch (err) {
         console.error("Failed to fetch publications:", err);

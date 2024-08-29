@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 interface Holding {
   _id: string;
@@ -15,7 +15,7 @@ const Holdings = () => {
   useEffect(() => {
     const fetchHoldings = async () => {
       try {
-        const data = await client.fetch<Holding[]>(`*[_type == "holding"]{_id, name}`);
+        const data = await sanityClient.fetch<Holding[]>(`*[_type == "holding"]{_id, name}`);
         setHoldings(data);
       } catch (err) {
         console.error("Failed to fetch holdings:", err);
