@@ -3,7 +3,7 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { client } from '../lib/sanity';
+import { sanityClient } from '../lib/sanity';
 
 const Home = () => {
   const [error, setError] = useState<string | null>(null); // Explicitly define the type
@@ -11,12 +11,12 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await client.fetch(`*[_type == "artwork"]{_id, title}`);
-        await client.fetch(`*[_type == "artist"]{_id, name}`);
-        await client.fetch(`*[_type == "publication"]{_id, title}`);
-        await client.fetch(`*[_type == "happening"]{_id, name}`);
-        await client.fetch(`*[_type == "holding"]{_id, title}`);
-        await client.fetch(`*[_type == "contact"]{_id, title}`);
+        await sanityClient.fetch(`*[_type == "artwork"]{_id, title}`);
+        await sanityClient.fetch(`*[_type == "artist"]{_id, name}`);
+        await sanityClient.fetch(`*[_type == "publication"]{_id, title}`);
+        await sanityClient.fetch(`*[_type == "happening"]{_id, name}`);
+        await sanityClient.fetch(`*[_type == "holding"]{_id, title}`);
+        await sanityClient.fetch(`*[_type == "contact"]{_id, title}`);
       } catch (err) {
         console.error("Failed to fetch data from Sanity:", err);
         if (err instanceof Error) {
