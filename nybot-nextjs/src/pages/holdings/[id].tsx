@@ -174,7 +174,7 @@ const HoldingDetail = () => {
           {holding.images.map((image, index) => (
             <div key={index}>
               <img
-                src={urlFor(image.asset).width(500).url()}
+                src={urlFor(image.asset).url()}
                 alt={image.alt || 'Image'}
                 // style={{ maxWidth: '500px' }}
               />
