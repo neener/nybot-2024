@@ -176,7 +176,7 @@ const HoldingDetail = () => {
               <img
                 src={urlFor(image.asset).width(500).url()}
                 alt={image.alt || 'Image'}
-                style={{ maxWidth: '500px' }}
+                // style={{ maxWidth: '500px' }}
               />
               {image.caption && <p>{image.caption}</p>}
             </div>
