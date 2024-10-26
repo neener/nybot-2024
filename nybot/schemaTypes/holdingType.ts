@@ -78,6 +78,10 @@ export const holdingType = defineType({
       type: 'number',
     }),
     defineField({
+      name: 'accession_number',
+      type: 'number',
+    }),
+    defineField({
       name: 'visibility',
       title: 'Visibility',
       type: 'string',
