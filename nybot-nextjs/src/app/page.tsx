@@ -52,7 +52,7 @@ const Home = () => {
         <h2><Link href="/holdings">Holdings</Link></h2>
       </section>
       <section>
-        <h2><Link href="/contact">Contact</Link></h2> 
+        <h2><Link href="/contact">About</Link></h2> 
       </section>
     </div>
   );
