@@ -172,6 +172,12 @@ export const artworkType = defineType({
       of: [{ type: 'reference', to: { type: 'artist' } }]
     },
     {
+      name: 'relatedPublications',
+      title: 'Related Publications',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'publication' } }]
+    },
+    {
       name: 'relatedHappenings',
       title: 'Related Happenings',
       type: 'array',
