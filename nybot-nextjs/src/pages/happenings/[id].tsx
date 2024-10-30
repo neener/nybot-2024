@@ -158,7 +158,7 @@ const HappeningDetail = () => {
             <div key={index}>
               {image.asset ? (
                 <>
-                  <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
+                  <img src={urlFor(image.asset).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
                   {image.caption && <p>{image.caption}</p>}
                 </>
               ) : (
