@@ -8,7 +8,6 @@ import { urlFor } from '../../lib/sanityImage';
 import { PortableTextBlock } from '@sanity/types';
 import Link from 'next/link';
 
-
 interface Artist {
   _id: string;
   name: string;
@@ -28,6 +27,10 @@ interface Artist {
   relatedLocations?: Array<{
     _id: string;
     city: string;
+  }>;
+  relatedHoldings?: Array<{
+    _id: string;
+    name: string;
   }>;
   images?: Array<{ _key: string; asset: { _ref: string }; caption: string; alt: string }>;
   about?: PortableTextBlock[];
@@ -64,6 +67,10 @@ const ArtistDetails = () => {
             relatedLocations[]-> {
               _id,
               city
+            },
+            relatedHoldings[]-> {
+              _id,
+              name
             },
             images[] {
               asset->{
@@ -155,7 +162,7 @@ const ArtistDetails = () => {
       {artist?.relatedArtworks && artist?.relatedArtworks.length > 0 && (
         <div>
           <h2>Related Artwork</h2>
-          {artist?.relatedArtworks.map((artwork, index) => (
+          {artist.relatedArtworks.map((artwork, index) => (
             <p key={index}>
               <Link href={`/artworks/${artwork._id}`}>
                 {artwork.title}
@@ -168,7 +175,7 @@ const ArtistDetails = () => {
       {artist?.relatedPublications && artist?.relatedPublications.length > 0 && (
         <div>
           <h2>Related Publications</h2>
-          {artist?.relatedPublications.map((publication, index) => (
+          {artist.relatedPublications.map((publication, index) => (
             <p key={index}>
               <Link href={`/publications/${publication._id}`}>
                 {publication.title}
@@ -181,7 +188,7 @@ const ArtistDetails = () => {
       {artist?.relatedHappenings && artist?.relatedHappenings.length > 0 && (
         <div>
           <h2>Related Happenings</h2>
-          {artist?.relatedHappenings.map((happening, index) => (
+          {artist.relatedHappenings.map((happening, index) => (
             <p key={index}>
               <Link href={`/happenings/${happening._id}`}>
                 {happening.name}
@@ -190,14 +197,29 @@ const ArtistDetails = () => {
           ))}
         </div>
       )}
+
+      {artist?.relatedHoldings && artist?.relatedHoldings.length > 0 && (
+        <div>
+          <h2>Related Holdings</h2>
+          {artist.relatedHoldings.map((holding, index) => (
+            <p key={index}>
+              <Link href={`/holdings/${holding._id}`}>
+                {holding.name}
+              </Link>
+            </p>
+          ))}
+        </div>
+      )}
+
       {artist?.relatedLocations && artist?.relatedLocations.length > 0 && (
         <div>
           <h2>Related Locations</h2>
-          {artist?.relatedLocations.map((location, index) => (
+          {artist.relatedLocations.map((location, index) => (
             <p key={index}>{location.city}</p>
           ))}
         </div>
       )}
+
       {artist?.images && (
         <div>
           <strong>Images:</strong>
