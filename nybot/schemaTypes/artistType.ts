@@ -47,6 +47,12 @@ export const artistType = defineType({
       type: 'array',
       of: [{ type: 'reference', to: { type: 'location' } }]
     },
+    {
+      name: 'relatedHoldings',
+      title: 'Related Holdings',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'holding' } }],
+    },
     defineField({
       name: 'images',
       type: 'array',
