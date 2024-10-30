@@ -174,7 +174,7 @@ const PublicationDetail = () => {
           <h2>Images</h2>
           {publication.images.map((image, index) => (
             <div key={index}>
-              <img src={urlFor(image.asset).width(500).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
+              <img src={urlFor(image.asset).url()} alt={image.caption || 'Image'} style={{ maxWidth: '500px' }} />
               {image.caption && <p>{image.caption}</p>}
             </div>
           ))}
